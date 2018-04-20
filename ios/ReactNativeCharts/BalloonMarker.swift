@@ -26,7 +26,7 @@ open class BalloonMarker: MarkerView {
     open var minimumSize = CGSize()
 
     
-    fileprivate var insets = UIEdgeInsets(top: 8.0,left: 8.0,bottom: 20.0,right: 8.0)
+    fileprivate var insets = UIEdgeInsets(top: 8.0,left: 8.0,bottom: 8.0,right: 8.0)
     fileprivate var topInsets = UIEdgeInsets(top: 20.0,left: 8.0,bottom: 8.0,right: 8.0)
     
     fileprivate var labelns: NSString?
@@ -50,6 +50,33 @@ open class BalloonMarker: MarkerView {
         fatalError("init(coder:) has not been implemented");
     }
 
+    func drawRectOnTop(context: CGContext, point: CGPoint) -> CGRect{
+      
+        let chart = super.chartView
+        let width = _size.width
+        
+        var rect = CGRect(origin: point, size: _size)
+        
+        rect.origin.y = 0;
+        rect.origin.x -= width / 2.0
+        rect.origin.x = max(0, min(rect.origin.x, (chart?.bounds.width ?? width) - width))
+      
+        drawFillRect(context: context, rect: rect)
+      
+        rect.origin.y += self.insets.top
+        rect.size.height -= self.insets.top + self.insets.bottom
+        return rect
+    }
+  
+    func drawFillRect(context: CGContext, rect: CGRect) {
+      
+      context.setFillColor((color?.cgColor)!)
+      
+      let path = UIBezierPath(roundedRect: rect, cornerRadius: 7.0)
+      context.addPath(path.cgPath)
+      context.setStrokeColor(UIColor.clear.cgColor)
+      context.drawPath(using: CGPathDrawingMode.fillStroke)
+    }
 
     func drawRect(context: CGContext, point: CGPoint) -> CGRect{
 
@@ -59,9 +86,9 @@ open class BalloonMarker: MarkerView {
 
 
         var rect = CGRect(origin: point, size: _size)
-        
+      
         if point.y - _size.height < 0 {
-          
+
             if point.x - _size.width / 2.0 < 0 {
                 drawTopLeftRect(context: context, rect: rect)
             } else if (chart != nil && point.x + width - _size.width / 2.0 > (chart?.bounds.width)!) {
@@ -71,14 +98,14 @@ open class BalloonMarker: MarkerView {
                 rect.origin.x -= _size.width / 2.0
                 drawTopCenterRect(context: context, rect: rect)
             }
-            
+
             rect.origin.y += self.topInsets.top
             rect.size.height -= self.topInsets.top + self.topInsets.bottom
 
         } else {
-            
+
             rect.origin.y -= _size.height
-            
+
             if point.x - _size.width / 2.0 < 0 {
                 drawLeftRect(context: context, rect: rect)
             } else if (chart != nil && point.x + width - _size.width / 2.0 > (chart?.bounds.width)!) {
@@ -88,12 +115,12 @@ open class BalloonMarker: MarkerView {
                 rect.origin.x -= _size.width / 2.0
                 drawCenterRect(context: context, rect: rect)
             }
-            
+
             rect.origin.y += self.insets.top
             rect.size.height -= self.insets.top + self.insets.bottom
 
         }
-        
+      
         return rect
     }
 
@@ -190,7 +217,7 @@ open class BalloonMarker: MarkerView {
 
         context.saveGState()
 
-        let rect = drawRect(context: context, point: point)
+        let rect = drawRectOnTop(context: context, point: point)
 
         UIGraphicsPushContext(context)
 
