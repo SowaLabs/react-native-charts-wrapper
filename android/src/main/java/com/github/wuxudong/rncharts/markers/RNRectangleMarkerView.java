@@ -33,9 +33,9 @@ public class RNRectangleMarkerView extends MarkerView {
     private int digits = 0;
 
     public RNRectangleMarkerView(Context context) {
-        super(context, R.layout.rectangle_marker);
+        super(context, R.layout.rounded_marker);
 
-        tvContent = (TextView) findViewById(R.id.rectangle_tvContent);
+        tvContent = (TextView) findViewById(R.id.rounded_tvContent);
     }
 
     public void setDigits(int digits) {
@@ -88,39 +88,18 @@ public class RNRectangleMarkerView extends MarkerView {
 
         MPPointF offset2 = new MPPointF();
 
-        offset2.x = offset.x;
-        offset2.y = offset.y;
-
         Chart chart = getChartView();
+
+        offset2.x = offset.x;
+        offset2.y = chart != null ? chart.getHeight() - (posY + chart.getHeight()) : offset.y;
 
         float width = getWidth();
 
         if (posX + offset2.x < 0) {
-            offset2.x = 0;
-
-            if (posY + offset2.y < 0) {
-                offset2.y = 0;
-                tvContent.setBackground(backgroundTopLeft);
-            } else {
-                tvContent.setBackground(backgroundLeft);
-            }
-
-        } else if (chart != null && posX + width + offset2.x > chart.getWidth()) {
-            offset2.x = -width;
-
-            if (posY + offset2.y < 0) {
-                offset2.y = 0;
-                tvContent.setBackground(backgroundTopRight);
-            } else {
-                tvContent.setBackground(backgroundRight);
-            }
-        } else {
-            if (posY + offset2.y < 0) {
-                offset2.y = 0;
-                tvContent.setBackground(backgroundTop);
-            } else {
-                tvContent.setBackground(background);
-            }
+            offset2.x += -(posX + offset2.x);
+        }
+        else if (chart != null && posX + width + offset2.x > chart.getWidth()) {
+            offset2.x -= (posX + width + offset2.x) - chart.getWidth();
         }
 
         return offset2;
