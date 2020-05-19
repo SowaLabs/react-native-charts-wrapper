@@ -26,16 +26,16 @@ open class BalloonMarker: MarkerView {
     open var minimumSize = CGSize()
 
     
-    fileprivate var insets = UIEdgeInsetsMake(8.0, 8.0, 8.0, 8.0)
-    fileprivate var topInsets = UIEdgeInsetsMake(20.0, 8.0, 8.0, 8.0)
+    var insets = UIEdgeInsetsMake(8.0, 8.0, 8.0, 8.0)
+    var topInsets = UIEdgeInsetsMake(20.0, 8.0, 8.0, 8.0)
     
     fileprivate var labelns: NSString?
-    fileprivate var _labelSize: CGSize = CGSize()
-    fileprivate var _size: CGSize = CGSize()
-    fileprivate var _paragraphStyle: NSMutableParagraphStyle?
     fileprivate var _drawAttributes = [NSAttributedStringKey: Any]()
+    var _labelSize: CGSize = CGSize()
+    var _size: CGSize = CGSize()
+    var _paragraphStyle: NSMutableParagraphStyle?
 
-
+  
     public init(color: UIColor, font: UIFont, textColor: UIColor) {
         super.init(frame: CGRect.zero);
         self.color = color
