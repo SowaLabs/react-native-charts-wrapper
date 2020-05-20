@@ -52,15 +52,15 @@ open class PriceBalloonMarker: BalloonMarker {
         let marker = object["marker"].dictionaryValue
         
         // Check for additional marker data
-        if let cryptoName = marker["entity"]?.stringValue,
+        if let entity = marker["entity"]?.stringValue,
           let price = marker["price"]?.stringValue,
           let priceDiff = marker["priceDiff"]?.stringValue,
           let dateTime = marker["dateTime"]?.stringValue,
           let direction = marker["direction"]?.stringValue
         {
-          label = "\(cryptoName) \(price)\n\(priceDiff)\n\(dateTime)"
+          label = "\(entity) \(price)\n\(priceDiff)\n\(dateTime)"
           
-          let priceRange = NSRange(location: cryptoName.count + 1, length: price.count)
+          let priceRange = NSRange(location: entity.count + 1, length: price.count)
           let priceDiffRange = NSRange(location: priceRange.upperBound + 1, length: priceDiff.count)
           
           labelns = NSMutableAttributedString(string: label, attributes: commonAttributes)
