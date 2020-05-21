@@ -14,11 +14,13 @@ import com.github.mikephil.charting.animation.Easing.EasingOption;
 import com.github.mikephil.charting.charts.Chart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.IMarker;
 import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.components.Legend.LegendForm;
 import com.github.mikephil.charting.components.Legend.LegendPosition;
 import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.XAxis.XAxisPosition;
 import com.github.mikephil.charting.data.Entry;
@@ -27,6 +29,8 @@ import com.github.mikephil.charting.formatter.LargeValueFormatter;
 import com.github.mikephil.charting.formatter.PercentFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.wuxudong.rncharts.data.DataExtract;
+import com.github.wuxudong.rncharts.markers.RNMarkerView;
+import com.github.wuxudong.rncharts.markers.RNPriceMarkerView;
 import com.github.wuxudong.rncharts.markers.RNRectangleMarkerView;
 import com.github.wuxudong.rncharts.utils.BridgeUtils;
 
@@ -254,7 +258,28 @@ public abstract class ChartBaseManager<T extends Chart, U extends Entry> extends
             return;
         }
 
-        RNRectangleMarkerView marker = new RNRectangleMarkerView(chart.getContext());
+        String markerType = "balloon";
+        if (BridgeUtils.validate(propMap, ReadableType.String, "type")) {
+            markerType = propMap.getString("type");
+        }
+
+        RNMarkerView marker;
+        switch (markerType) {
+            case "priceBalloon":
+                String positiveColor = "green";
+                if (BridgeUtils.validate(propMap, ReadableType.String, "positiveColor")) {
+                    positiveColor = propMap.getString("positiveColor");
+                }
+                String negativeColor = "red";
+                if (BridgeUtils.validate(propMap, ReadableType.String, "negativeColor")) {
+                    negativeColor = propMap.getString("negativeColor");
+                }
+                marker = new RNPriceMarkerView(chart.getContext(), positiveColor, negativeColor);
+                break;
+            case "balloon":
+            default:
+                marker = new RNRectangleMarkerView(chart.getContext());
+        }
         marker.setChartView(chart);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP &&
