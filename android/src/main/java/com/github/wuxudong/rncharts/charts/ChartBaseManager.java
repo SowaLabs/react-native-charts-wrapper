@@ -267,12 +267,12 @@ public abstract class ChartBaseManager<T extends Chart, U extends Entry> extends
         switch (markerType) {
             case "priceBalloon":
                 String positiveColor = "green";
-                if (BridgeUtils.validate(propMap, ReadableType.String, "positiveColor")) {
-                    positiveColor = propMap.getString("positiveColor");
+                if (BridgeUtils.validate(propMap, ReadableType.Number, "positiveColor")) {
+                    positiveColor = "#" + Integer.toHexString(propMap.getInt("positiveColor") & 0x00FFFFFF);
                 }
                 String negativeColor = "red";
-                if (BridgeUtils.validate(propMap, ReadableType.String, "negativeColor")) {
-                    negativeColor = propMap.getString("negativeColor");
+                if (BridgeUtils.validate(propMap, ReadableType.Number, "negativeColor")) {
+                    negativeColor = "#" + Integer.toHexString(propMap.getInt("negativeColor") & 0x00FFFFFF);
                 }
                 marker = new RNPriceMarkerView(chart.getContext(), positiveColor, negativeColor);
                 break;
