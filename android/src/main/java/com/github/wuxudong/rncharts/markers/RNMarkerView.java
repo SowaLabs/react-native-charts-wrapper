@@ -50,10 +50,8 @@ public abstract class RNMarkerView extends MarkerView {
         MPPointF offset2 = new MPPointF();
 
         Chart chart = getChartView();
-
         offset2.x = offset.x;
         offset2.y = chart != null ? chart.getHeight() - (posY + chart.getHeight()) : offset.y;
-
         float width = getWidth();
 
         if (posX + offset2.x < 0) {
@@ -68,5 +66,4 @@ public abstract class RNMarkerView extends MarkerView {
     public TextView getTvContent() {
         return tvContent;
     }
-
 }

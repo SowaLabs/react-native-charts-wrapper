@@ -1,7 +1,6 @@
 package com.github.wuxudong.rncharts.markers;
 
 import android.content.Context;
-import android.text.Spanned;
 import android.text.TextUtils;
 
 import com.github.mikephil.charting.data.CandleEntry;
@@ -21,7 +20,6 @@ public class RNRectangleMarkerView extends RNMarkerView {
     @Override
     public void refreshContent(Entry e, Highlight highlight) {
         String text;
-        Spanned spannedText = null;
 
         if (e instanceof CandleEntry) {
             CandleEntry ce = (CandleEntry) e;

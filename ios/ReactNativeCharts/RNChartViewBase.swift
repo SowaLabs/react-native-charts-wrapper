@@ -441,12 +441,18 @@ open class RNChartViewBase: UIView, ChartViewDelegate {
         font: markerFont,
         textColor: RCTConvert.uiColor(json["textColor"].intValue))
     case .PriceBalloon?:
+      var avoidGraphLine = false;
+      if json["avoidGraphLine"].exists() {
+        avoidGraphLine = json["avoidGraphLine"].boolValue
+      }
+      
       marker = PriceBalloonMarker(
         color: RCTConvert.uiColor(json["markerColor"].intValue),
         font: markerFont,
         textColor: RCTConvert.uiColor(json["textColor"].intValue),
         positiveColor: RCTConvert.uiColor(json["positiveColor"].intValue),
         negativeColor: RCTConvert.uiColor(json["negativeColor"].intValue))
+      (marker as! PriceBalloonMarker).setAvoidGraphLine(avoidGraphLine)
     }
     chart.marker = marker
     marker.chartView = chart

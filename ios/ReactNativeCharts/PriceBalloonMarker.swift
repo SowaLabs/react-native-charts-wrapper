@@ -14,6 +14,7 @@ import SwiftyJSON
 
 open class PriceBalloonMarker: BalloonMarker {
   
+  fileprivate var avoidGraphLine: Bool = false
   fileprivate var labelns: NSMutableAttributedString?
   fileprivate var commonAttributes = [NSAttributedStringKey:Any]()
   fileprivate var boldAttributes = [NSAttributedStringKey:Any]()
@@ -37,6 +38,33 @@ open class PriceBalloonMarker: BalloonMarker {
     fatalError("init(coder:) has not been implemented")
   }
   
+  override func drawRectOnTop(context: CGContext, point: CGPoint) -> CGRect{
+    
+    let chart = super.chartView
+    let width = _size.width
+    
+    var rect = CGRect(origin: point, size: _size)
+    
+    rect.origin.y = 0;
+    
+    // Show the tooltip below the chart, when the tooltip covers the chart
+    let delta = CGFloat(40)
+    if self.avoidGraphLine && point.y < _size.height {
+      rect.origin.y = _size.height + delta
+    }
+    
+    rect.origin.x -= width / 2.0
+    rect.origin.x = max(0, min(rect.origin.x, (chart?.bounds.width ?? width) - width))
+    
+    drawFillRect(context: context, rect: rect)
+    
+    rect.origin.y += self.insets.top
+    rect.size.height -= self.insets.top + self.insets.bottom
+    
+    return rect
+  }
+
+  
   open override func refreshContent(entry: ChartDataEntry, highlight: Highlight) {
     var label : String;
     
@@ -59,10 +87,10 @@ open class PriceBalloonMarker: BalloonMarker {
           let direction = marker["direction"]?.stringValue
         {
           label = "\(entity) \(price)\n\(priceDiff)\n\(dateTime)"
-          
+
           let priceRange = NSRange(location: entity.count + 1, length: price.count)
           let priceDiffRange = NSRange(location: priceRange.upperBound + 1, length: priceDiff.count)
-          
+
           labelns = NSMutableAttributedString(string: label, attributes: commonAttributes)
           labelns?.addAttributes(boldAttributes, range: priceRange)
           
@@ -92,6 +120,10 @@ open class PriceBalloonMarker: BalloonMarker {
     _size.height = _labelSize.height + self.insets.top + self.insets.bottom
     _size.width = max(minimumSize.width, _size.width)
     _size.height = max(minimumSize.height, _size.height)
+  }
+  
+  func setAvoidGraphLine(_ avoidGraphLine: Bool) {
+    self.avoidGraphLine = avoidGraphLine
   }
   
   open override func draw(context: CGContext, point: CGPoint) {

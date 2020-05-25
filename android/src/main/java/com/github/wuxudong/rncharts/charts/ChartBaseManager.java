@@ -266,6 +266,11 @@ public abstract class ChartBaseManager<T extends Chart, U extends Entry> extends
         RNMarkerView marker;
         switch (markerType) {
             case "priceBalloon":
+                boolean avoidGraphLine = false;
+                if (BridgeUtils.validate(propMap, ReadableType.Boolean, "avoidGraphLine")) {
+                    avoidGraphLine = propMap.getBoolean("avoidGraphLine");
+                }
+
                 String positiveColor = "green";
                 if (BridgeUtils.validate(propMap, ReadableType.Number, "positiveColor")) {
                     positiveColor = "#" + Integer.toHexString(propMap.getInt("positiveColor") & 0x00FFFFFF);
@@ -275,6 +280,7 @@ public abstract class ChartBaseManager<T extends Chart, U extends Entry> extends
                     negativeColor = "#" + Integer.toHexString(propMap.getInt("negativeColor") & 0x00FFFFFF);
                 }
                 marker = new RNPriceMarkerView(chart.getContext(), positiveColor, negativeColor);
+                ((RNPriceMarkerView) marker).setAvoidGraphLine(avoidGraphLine);
                 break;
             case "balloon":
             default:
