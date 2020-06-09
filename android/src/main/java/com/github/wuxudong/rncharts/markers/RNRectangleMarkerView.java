@@ -1,8 +1,6 @@
 package com.github.wuxudong.rncharts.markers;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import androidx.core.content.res.ResourcesCompat;
 import android.text.TextUtils;
 
 import com.github.mikephil.charting.data.CandleEntry;
@@ -16,9 +14,7 @@ import java.util.Map;
 public class RNRectangleMarkerView extends RNMarkerView {
 
     public RNRectangleMarkerView(Context context) {
-        super(context, R.layout.rounded_marker);
-
-        tvContent = (TextView) findViewById(R.id.rounded_tvContent);
+        super(context);
     }
 
     @Override
