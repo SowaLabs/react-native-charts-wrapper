@@ -51,6 +51,7 @@ public class RNOnChartGestureListener implements OnChartGestureListener {
 
     @Override
     public void onChartLongPressed(MotionEvent me) {
+        sendEvent("longPressed", me);
     }
 
     @Override

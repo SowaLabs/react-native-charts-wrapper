@@ -6,6 +6,7 @@ import android.os.Build;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableType;
+import com.facebook.react.common.MapBuilder;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.github.mikephil.charting.animation.Easing;
@@ -36,6 +37,7 @@ import com.github.wuxudong.rncharts.utils.TypefaceUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public abstract class ChartBaseManager<T extends Chart, U extends Entry> extends SimpleViewManager<T> {
@@ -49,6 +51,8 @@ public abstract class ChartBaseManager<T extends Chart, U extends Entry> extends
     protected static final int HIGHLIGHTS = 8;
 
     protected static final int SET_DATA_AND_LOCK_INDEX = 9;
+
+    public boolean mEnableSelectEvent = false;
 
     abstract DataExtract getDataExtract();
 
@@ -539,6 +543,16 @@ public abstract class ChartBaseManager<T extends Chart, U extends Entry> extends
         chart.highlightValues(highlights.toArray(new Highlight[highlights.size()]));
     }
 
+    @ReactProp(name = "enableSelectEvent")
+    public void setEnableSelectEvent(T chart, boolean enableSelectEvent) {
+        mEnableSelectEvent = enableSelectEvent;
+    }
+
+    @ReactProp(name = "longPressToScroll")
+    public void setLongPressToScroll(T chart, boolean longPressToScroll) {
+        chart.setLongPressToScroll(longPressToScroll);
+    }
+
     protected void onAfterDataSetChanged(T chart) {
 
     }
@@ -548,7 +562,6 @@ public abstract class ChartBaseManager<T extends Chart, U extends Entry> extends
         super.onAfterUpdateTransaction(chart);
         chart.notifyDataSetChanged();
         onAfterDataSetChanged(chart);
-        chart.postInvalidate();;
+        chart.postInvalidate();
     }
-
 }
