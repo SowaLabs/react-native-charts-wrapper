@@ -553,6 +553,11 @@ public abstract class ChartBaseManager<T extends Chart, U extends Entry> extends
         chart.setLongPressToScroll(longPressToScroll);
     }
 
+    @ReactProp(name = "lockScrollDelay")
+    public void setLockScrollDelay(T chart, int delayMs) {
+        chart.setLockScrollDelay(delayMs);
+    }
+
     protected void onAfterDataSetChanged(T chart) {
 
     }

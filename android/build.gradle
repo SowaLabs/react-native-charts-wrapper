@@ -33,7 +33,7 @@ repositories {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.facebook.react:react-native:+"  // From node_modules
-    implementation 'com.github.SowaLabs:MPAndroidChart:v3.3.0-sowalabs'
+    implementation 'com.github.SowaLabs:MPAndroidChart:v3.4.0-sowalabs'
     // implementation "com.android.support:support-core-utils:28.0.0"
     // implementation project(path: ':MPAndroidChart')
 }
