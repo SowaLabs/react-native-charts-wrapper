@@ -27,17 +27,12 @@ open class PriceBalloonMarker: BalloonMarker {
 
     commonAttributes[NSAttributedString.Key.font] = font
     commonAttributes[NSAttributedString.Key.paragraphStyle] = _paragraphStyle
-
-    var boldDescriptor: UIFontDescriptor
-    if #available(iOS 8.2, *) {
-        boldDescriptor = font.fontDescriptor.addingAttributes([
-            UIFontDescriptor.AttributeName.traits: [UIFontDescriptor.TraitKey.weight: UIFont.Weight.bold]
-        ])
-    } else {
-        // Fallback on earlier versions
-        boldDescriptor = font.fontDescriptor
+    
+    var boldFont = font
+    if let boldDescriptor = font.fontDescriptor.withSymbolicTraits(.traitBold) {
+        boldFont = UIFont(descriptor: boldDescriptor, size: font.pointSize)
     }
-    let boldFont = UIFont(descriptor: boldDescriptor, size: font.pointSize)
+
     boldAttributes[NSAttributedString.Key.font] = boldFont
     positiveOffsetAttributes[NSAttributedString.Key.foregroundColor] = positiveColor
     negativeOffsetAttributes[NSAttributedString.Key.foregroundColor] = negativeColor
