@@ -27,6 +27,7 @@ open class PriceBalloonMarker: BalloonMarker {
 
     commonAttributes[NSAttributedString.Key.font] = font
     commonAttributes[NSAttributedString.Key.paragraphStyle] = _paragraphStyle
+    commonAttributes[NSAttributedString.Key.foregroundColor] = textColor
     
     var boldFont = font
     if let boldDescriptor = font.fontDescriptor.withSymbolicTraits(.traitBold) {

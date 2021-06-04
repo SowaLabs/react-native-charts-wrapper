@@ -23,8 +23,8 @@ open class BalloonMarker: MarkerView {
   open var textColor: UIColor?
   open var minimumSize = CGSize()
 
-  var insets = UIEdgeInsets.init(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
-  var topInsets = UIEdgeInsets.init(top: 20.0, left: 8.0, bottom: 8.0, right: 8.0)
+  var insets = UIEdgeInsets.init(top: 10.0, left: 10.0, bottom: 10.0, right: 10.0)
+  var topInsets = UIEdgeInsets.init(top: 20.0, left: 15.0, bottom: 15.0, right: 15.0)
 
   fileprivate var labelns: NSString?
   fileprivate var _drawAttributes = [NSAttributedString.Key: Any]()
@@ -67,8 +67,9 @@ open class BalloonMarker: MarkerView {
   func drawFillRect(context: CGContext, rect: CGRect) {
 
     context.setFillColor((color?.cgColor)!)
+    context.setShadow(offset: CGSize(width: 4, height: 4), blur: 8, color: UIColor.black.cgColor.copy(alpha: 0.15))
 
-    let path = UIBezierPath(roundedRect: rect, cornerRadius: 7.0)
+    let path = UIBezierPath(roundedRect: rect, cornerRadius: 2.0)
     context.addPath(path.cgPath)
     context.setStrokeColor(UIColor.clear.cgColor)
     context.drawPath(using: CGPathDrawingMode.fillStroke)

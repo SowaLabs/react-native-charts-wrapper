@@ -82,7 +82,26 @@ class LineDataExtract : DataExtract {
             
             lineDataSet.lineDashLengths = [lineLength, spaceLength]
             lineDataSet.lineDashPhase = phase
-        }            
+        }
+        
+        if config["dashedLineHighlight"].exists() {
+            let dashedLine = config["dashedLineHighlight"]
+            var lineLength = CGFloat(0);
+            var spaceLength = CGFloat(0);
+            var phase = CGFloat(0);
+            
+            if dashedLine["lineLength"].number != nil {
+                lineLength = CGFloat(dashedLine["lineLength"].numberValue)
+            }
+            if dashedLine["spaceLength"].number != nil {
+                spaceLength = CGFloat(dashedLine["spaceLength"].numberValue)
+            }
+            if dashedLine["phase"].number != nil {
+                phase = CGFloat(dashedLine["phase"].numberValue)
+            }
+            lineDataSet.highlightLineDashLengths = [lineLength, spaceLength]
+            lineDataSet.highlightLineDashPhase = phase
+        }
     }
     
     override func createEntry(_ values: [JSON], index: Int) -> ChartDataEntry {

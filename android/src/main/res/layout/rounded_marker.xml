@@ -3,19 +3,25 @@
     android:id="@+id/rounded_markerContent"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    >
+    android:clipChildren="false"
+    android:clipToPadding="false"
+    android:padding="5dp"
+    android:soundEffectsEnabled="false">
 
     <TextView
         android:id="@+id/rounded_tvContent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_border"
-        android:layout_centerHorizontal="true"
-        android:text=""
+        android:elevation="20dp"
         android:gravity="center"
-        android:textSize="12sp"
-        android:textColor="@android:color/white"
+        android:paddingStart="15dp"
+        android:paddingTop="10dp"
+        android:paddingEnd="15dp"
+        android:paddingBottom="10dp"
+        android:text=""
         android:textAppearance="?android:attr/textAppearanceSmall"
-    />
+        android:textColor="@android:color/white"
+        android:textSize="12sp" />
 
 </RelativeLayout>
